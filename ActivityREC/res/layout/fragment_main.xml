@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context="org.spmob.fisrtspmob.MainActivity$PlaceholderFragment" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/monitor_status_is" />
+    
+    <ImageView android:id="@+id/mon_status_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:contentDescription="@string/monit_inactive"
+        android:src="@drawable/monit_inactive"/>
+
+    <Button
+        android:id="@+id/activate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="activateMonitoring"
+        android:layout_gravity="center"
+        android:text="@string/button_activate" />
+    
+    <Button
+        android:id="@+id/activity_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="openActivityAction"
+        android:layout_gravity="center"
+        android:text="@string/button_activity" />
+    
+    <Button
+        android:id="@+id/deactivate_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="deactivateMonitoring"
+        android:layout_gravity="center"
+        android:text="@string/button_deactivate" />
+
+</LinearLayout>

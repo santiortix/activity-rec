@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="app_name">Activity REC</string>
+    <string name="ok_btn">OK</string>
+    <string name="cancel_btn">Cancelar</string>
+    <!--string name="hello_world">Hola chache!</string-->
+    <string name="monitor_status_is">La monitorización está &#8230;</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">Acerca de</string>
+    <!--string name="edit_message">Escribe algo</string-->
+    <!--string name="button_send">Enviar</string-->
+    <string name="button_activate">Activar</string>
+    <string name="button_deactivate">Desactivar</string>
+    <string name="button_activity">Ver actividad</string>
+    <!--string name="title_activity_display_message">Tu mensaje</string-->
+    <string name="action_search">Buscar</string>
+    <string name="enter_password">Contraseña</string>
+    <string name="set_pwd_txt">Establezca una contraseña para acceder a la configuración</string>
+    <string name="enter_pwd_txt">Introduzca la contraseña:</string>
+    <string name="wrong_pwd">La contraseña no es válida</string>
+    <string name="no_reg_access">El registro de actividad está desactivado, no se puede acceder</string>
+    <string name="no_pwd_active">Registry is active but there\'s no password set. Please restart monitoring and set a new master password.</string>
+    
+    <!-- SHOW REGISTRY ACTIVITY -->
+    <string name="title_activity_show_registry">ShowRegistryActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- SET PASSWORD DIALOG -->
+    <string name="error">ERROR</string>
+    <string name="pwd_not_match">Las contraseñas no coinciden</string>
+    
+    <!-- Toast's strings -->
+    <string name="not_implemented">No implementado!</string>
+    <string name="no_settings">Nada que configurar!!</string>
+    <string name="mon_activated">La monitorización está activa</string>
+    <string name="mon_deactivated">La monitorización está desactivada</string>
+    
+    <!-- Other strings -->
+    <string name="monit_inactive">La monitorización está inactiva</string>
+    <string name="monit_active">La monitorización está activa</string>
+
+</resources>

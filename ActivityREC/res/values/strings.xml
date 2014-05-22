@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- MAIN ACTIVITY -->
+    <string name="app_name">Activity REC</string>
+    <string name="ok_btn">OK</string>
+    <string name="cancel_btn">Cancel</string>
+    <string name="error">ERROR</string>
+    <!-- string name="hello_world">Hello world!</string -->
+    <string name="monitor_status_is">Monitoring status is &#8230;</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <!-- string name="edit_message">Enter a message</string -->
+    <!-- string name="button_send">Send</string -->
+    <string name="button_activate">Activate</string>
+    <string name="button_deactivate">Deactivate</string>
+    <string name="button_activity">View activity</string>
+    <!-- string name="title_activity_display_message">Your message</string -->
+    <string name="action_search">Search</string>
+    <string name="enter_password">Enter password</string>
+    <string name="set_pwd_txt">Enter a password to protect monitoring settings</string>
+    <string name="enter_pwd_txt">Enter master password:</string>
+    <string name="wrong_pwd">Wrong master password</string>
+    <string name="no_reg_access">Activity registry is not active, can\'t access</string>
+    <string name="no_pwd_active">Registry is active but there\'s no password set. Please restart monitoring and set a new master password.</string>        
+    
+    <!-- SHOW REGISTRY ACTIVITY -->
+    <string name="title_activity_show_registry">ShowRegistryActivity</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <!-- SET PASSWORD DIALOG -->    
+    <string name="pwd_not_match">Passwords doesn\'t match</string>
+
+    <!-- Toast's strings -->
+    <string name="not_implemented">Not implemented yet!</string>
+    <string name="no_settings">No settings to set!!</string>
+    <string name="mon_activated">Monitoring is now active</string>
+    <string name="mon_deactivated">Monitoring is now inactive</string>
+
+    <!-- Other strings -->
+    <string name="monit_inactive">Monitoring is inactive</string>
+    <string name="monit_active">Monitoring is active</string>
+
+    <!-- Config strings (not translation needed) -->
+    <string name="key_monitoring_active">monitoring_active</string>
+    <string name="key_password_set">password_set</string>
+    <string name="key_password">password</string>
+    <string name="key_email_addr">email_addr</string>
+    
+
+</resources>
