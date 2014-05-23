@@ -1,18 +1,11 @@
 package com.startapps.activityrec.activities;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
+import java.util.Set;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.content.res.Resources.NotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -25,7 +18,9 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.startapps.activityrec.R;
+import com.startapps.activityrec.preference.MultiSelectListPreference;
 import com.startapps.activityrec.utils.MainUtils;
+import com.startapps.activityrec.utils.PreferenceUtils;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -38,7 +33,7 @@ import com.startapps.activityrec.utils.MainUtils;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class SettingsActivity extends PreferenceActivity /*implements OnSharedPreferenceChangeListener*/
+public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceChangeListener/*OnSharedPreferenceChangeListener*/
 {
 	/**
 	 * Determines whether to always show the simplified settings UI, where
@@ -47,14 +42,13 @@ public class SettingsActivity extends PreferenceActivity /*implements OnSharedPr
 	 * shown on tablets.
 	 */
 	private static final boolean ALWAYS_SIMPLE_PREFS = false;
+	private String mOrigSummaryText;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setupActionBar();
-		
-		//getFragmentManager().beginTransaction().replace(android.R.id.content, new GeneralSettingsFragment()).commit();
-		//addPreferencesFromResource(R.xml.pref_general);
 	}
 
 	/**
@@ -95,6 +89,14 @@ public class SettingsActivity extends PreferenceActivity /*implements OnSharedPr
 
 		//setupSimplePreferencesScreen();
 		setupPreferencesScreen();
+		
+		final MultiSelectListPreference appsPref = (MultiSelectListPreference) findPreference(getText(R.string.key_applist));
+		appsPref.setOnPreferenceChangeListener(this);
+		
+		mOrigSummaryText = appsPref.getSummary().toString();
+		String[] allValues = getResources().getStringArray(R.array.pref_applist_values);
+        String[] allNames = getResources().getStringArray(R.array.pref_applist_titles);
+		appsPref.setSummary(MainUtils.getInstance().makeSummaryText(mOrigSummaryText, appsPref.getValues(), allValues, allNames));
 	}
 	
 	private void setupPreferencesScreen()
@@ -102,10 +104,14 @@ public class SettingsActivity extends PreferenceActivity /*implements OnSharedPr
 		//getFragmentManager().beginTransaction().replace(android.R.id.content, new GeneralSettingsFragment()).commit();
 		addPreferencesFromResource(R.xml.pref_general);
 		
+		addPreferencesFromResource(R.xml.pref_applist);
+		
+		//Map<String,String> appsSupported = getAppsSupported();
+		
 		bindPrefSummaryToValue(findPreference(getText(R.string.key_email_addr)));
 		CheckBoxPreference mon_act = (CheckBoxPreference) findPreference(getText(R.string.key_monitoring_active));
 		mon_act.setEnabled(false);
-		mon_act.setChecked(MainUtils.getInstance().checkPrefsMonitoringActive());
+		mon_act.setChecked(PreferenceUtils.getInstance().checkPrefsMonitoringActive());
 	}
 
 	/**
@@ -233,7 +239,38 @@ public class SettingsActivity extends PreferenceActivity /*implements OnSharedPr
 				PreferenceManager.getDefaultSharedPreferences(pref.getContext()).getString(pref.getKey(),""));
 	}
 	
-	private Map<String,String> getAppsSupported()
+	public boolean onPreferenceChange(Preference preference, Object newValue)
+	{
+		final String key = preference.getKey();
+        if (key.equals(getString(R.string.key_applist)))
+        {        	
+            final MultiSelectListPreference multiselpref = (MultiSelectListPreference) preference;
+            String[] allValues = getResources().getStringArray(R.array.pref_applist_values);
+            String[] allNames = getResources().getStringArray(R.array.pref_applist_titles);
+
+            multiselpref.setSummary(MainUtils.getInstance().makeSummaryText(mOrigSummaryText, (Set<String>) newValue, allValues, allNames));
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+	}
+	
+	/*private static String makeSummaryText(String baseText, Set<String> values, String[] allValues, String[] allNames)
+	{
+		String[] names = new String[values.size()];
+		int i=0;
+		for (String value : values)
+		{
+			names[i] = MainUtils.getInstance().getArrayTitleForValue(value, allValues, allNames);
+			i++;
+		}
+		return baseText + " " + MainUtils.getInstance().sortedToString(names);
+    }*/
+	
+	/*private Map<String,String> getAppsSupported()
 	{
 		Map<String,String> appsSupported = new HashMap<String,String>();
 		Resources resources = this.getResources();		
@@ -259,7 +296,7 @@ public class SettingsActivity extends PreferenceActivity /*implements OnSharedPr
 		}
 		
 		return appsSupported;
-	}
+	}*/
 	
 	/* FRAGMENTO DE SETTINGS GENERAL */
 	/* NO PODEMOS USARLO POR COMPATIBILIDAD CON 2.3.3

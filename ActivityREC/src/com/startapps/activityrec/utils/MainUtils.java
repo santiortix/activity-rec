@@ -1,13 +1,13 @@
 package com.startapps.activityrec.utils;
 
+import java.util.Arrays;
+import java.util.Set;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.widget.Toast;
-
-import com.startapps.activityrec.R;
 
 public class MainUtils
 {
@@ -54,50 +54,24 @@ public class MainUtils
 		}
 	}
 	
-	public final boolean checkPrefsMonitoringActive()
-	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
-		return prefs.getBoolean(mainActivity.getString(R.string.key_monitoring_active), false);
-	}
-	
-	public final boolean checkPrefsPasswordEnabled()
-	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
-		return prefs.getBoolean(mainActivity.getString(R.string.key_password_set), false);
-	}
-	
-	public final void disablePrefsActivityRegistry()
-	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putBoolean(mainActivity.getString(R.string.key_monitoring_active), false);
-		editor.putBoolean(mainActivity.getString(R.string.key_password_set), false);
-		editor.remove(mainActivity.getString(R.string.key_password));
-		editor.commit();
-	}
-	
-	public final void enablePrefsActivityRegistry(final String pwd)
-	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putBoolean(mainActivity.getString(R.string.key_monitoring_active), true);
-		editor.putBoolean(mainActivity.getString(R.string.key_password_set), true);
-		editor.putString(mainActivity.getString(R.string.key_password), pwd);
-		editor.commit();
-	}
-	
-	public final String getPrefsMasterPassword()
-	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
-		return prefs.getString(mainActivity.getString(R.string.key_password), "-1");
-	}
-	
 	public final void showErrorDialog(final CharSequence errTitle, final CharSequence errMsg)
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
 		builder.setMessage(errMsg).setTitle(errTitle);
 		AlertDialog errDiag = builder.create();
 		errDiag.show();
+	}
+	
+	public String makeSummaryText(String baseText, Set<String> values, String[] allValues, String[] allNames)
+	{
+		String[] names = new String[values.size()];
+		int i=0;
+		for (String value : values)
+		{
+			names[i] = getArrayTitleForValue(value, allValues, allNames);
+			i++;
+		}
+		return baseText + " " + sortedToString(names);
 	}
 	
 	public boolean appInstalledOrNot(final String uri)
@@ -115,4 +89,47 @@ public class MainUtils
         }
         return app_installed ;
     }
+	
+	//public  String sortedToString(Set<String> values)
+	private String sortedToString(String[] sorted)
+	{
+        // sort items
+        /*String[] sorted = new String[values.size()];
+        values.toArray(sorted);*/
+        Arrays.sort(sorted);
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("[");
+        for (int i = 0; i < sorted.length; i++)
+        {
+            if (i > 0)
+            {
+                builder.append(", ");
+            }
+
+            builder.append(sorted[i]);
+        }
+        builder.append("]");
+
+        return builder.toString();
+    }
+	
+	public String getArrayTitleForValue(String value, String[] allValues, String[] allNames)
+	{
+		try
+		{
+			for (int i=0; i<allValues.length; i++)
+			{
+				if (value.equals(allValues[i]))
+				{
+					return allNames[i];
+				}
+			}
+		}
+		catch (ArrayIndexOutOfBoundsException e)
+		{
+			System.err.println("ArraiIndexOutOfBoundsException: " + e.getMessage());
+		}
+		return value;
+	}
 }

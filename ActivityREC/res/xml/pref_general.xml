@@ -34,7 +34,7 @@
     
     <PreferenceCategory
         android:title="@string/pref_header_general"
-        android:key="pref_key_" >
+        android:key="pref_key_general" >
         
 	    <CheckBoxPreference 
 	        android:defaultValue="false"

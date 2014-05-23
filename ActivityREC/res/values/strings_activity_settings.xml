@@ -6,11 +6,32 @@
     <!-- Strings related to Settings -->
     
     <string name="pref_header_general">General</string>
+    <string name="pref_header_applist">Supported Apps</string>
     
     <string name="pref_title_activate_monitoring">Activate monitoring</string>
     <string name="pref_desc_activate_monitoring">Activate monitoring process to register activity</string>
     <string name="pref_hint_email_addr">Enter email address</string>
-    <string name="pref_title_email_addr">Email for notifications</string>    
+    <string name="pref_title_email_addr">Email for notifications</string>
+    
+    <string name="pref_title_applist">Supported Apps</string>
+    <string name="pref_summ_applist">Supported Apps</string>
+    <!-- Datos de prueba -->
+    <string-array name="pref_applist_values">
+        <item>com.facebook.katana</item>
+        <item>com.twitter.android</item>
+        <item>com.whatsapp</item>
+        <item>com.tuenti.android.client</item>
+    </string-array>
+    <string-array name="pref_applist_titles">
+        <item>Facebook</item>
+        <item>Twitter</item>
+        <item>WhatsApp</item>
+        <item>Tuenti</item>
+    </string-array>
+    <string-array name="pref_applist_defaults">
+        <!--<item>2</item>
+        <item>3</item>-->
+    </string-array>
     
 
     <!-- Example General settings -->

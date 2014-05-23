@@ -43,5 +43,13 @@
         android:onClick="deactivateMonitoring"
         android:layout_gravity="center"
         android:text="@string/button_deactivate" />
+    
+    <Button 
+        android:id="@+id/debug_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDebugInfo"
+        android:layout_gravity="center"
+        android:text="@string/button_debug" />
 
 </LinearLayout>

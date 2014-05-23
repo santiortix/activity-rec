@@ -1,0 +1,28 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:title="@string/pref_header_applist"
+        android:key="pref_key_applist" >
+        
+        <!--<MultiSelectListPreference
+            android:dialogTitle="@string/pref_title_applist"
+	        android:key="mode_repeat"
+	        android:summary=""        
+	        android:title="@string/pref_title_applist"
+	         />-->
+        <!-- android:entries="@array/weekdays"
+	        android:entryValues="@array/weekdays_values"
+	        android:defaultValue="@array/empty_array" -->
+	        
+	    <com.startapps.activityrec.preference.MultiSelectListPreference
+	        android:defaultValue="@array/pref_applist_defaults"
+	        android:entries="@array/pref_applist_titles"
+	        android:entryValues="@array/pref_applist_values"
+	        android:key="@string/key_applist"
+	        android:summary="@string/pref_summ_applist"
+	        android:persistent="true"
+	        android:title="@string/pref_title_applist" />
+        
+    </PreferenceCategory>
+    
+</PreferenceScreen>

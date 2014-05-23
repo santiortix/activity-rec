@@ -15,6 +15,7 @@
     <string name="button_activate">Activate</string>
     <string name="button_deactivate">Deactivate</string>
     <string name="button_activity">View activity</string>
+    <string name="button_debug">Debug</string>
     <!-- string name="title_activity_display_message">Your message</string -->
     <string name="action_search">Search</string>
     <string name="enter_password">Enter password</string>
@@ -46,6 +47,7 @@
     <string name="key_password_set">password_set</string>
     <string name="key_password">password</string>
     <string name="key_email_addr">email_addr</string>
+    <string name="key_applist">app_list</string>
     
 
 </resources>

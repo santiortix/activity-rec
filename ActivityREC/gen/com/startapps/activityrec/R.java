@@ -16,6 +16,16 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        /** <item>2</item>
+        <item>3</item>
+         */
+        public static final int pref_applist_defaults=0x7f0e0002;
+        public static final int pref_applist_titles=0x7f0e0001;
+        /**  Datos de prueba 
+         */
+        public static final int pref_applist_values=0x7f0e0000;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -1078,13 +1088,12 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020056;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020057;
-        public static final int b_ic_action_overflow=0x7f020058;
-        public static final int ic_action_overflow=0x7f020059;
-        public static final int ic_action_search=0x7f02005a;
-        public static final int ic_action_settings=0x7f02005b;
-        public static final int ic_launcher=0x7f02005c;
-        public static final int monit_active=0x7f02005d;
-        public static final int monit_inactive=0x7f02005e;
+        public static final int ic_action_overflow=0x7f020058;
+        public static final int ic_action_search=0x7f020059;
+        public static final int ic_action_settings=0x7f02005a;
+        public static final int ic_launcher=0x7f02005b;
+        public static final int monit_active=0x7f02005c;
+        public static final int monit_inactive=0x7f02005d;
     }
     public static final class id {
         public static final int action_bar=0x7f07001c;
@@ -1098,7 +1107,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070016;
         public static final int action_menu_presenter=0x7f070017;
         public static final int action_mode_close_button=0x7f070024;
-        public static final int action_settings=0x7f070046;
+        public static final int action_settings=0x7f070047;
         public static final int activate_btn=0x7f070041;
         public static final int activity_btn=0x7f070042;
         public static final int activity_chooser_view_content=0x7f070025;
@@ -1108,6 +1117,7 @@ containing a value of this type.
         public static final int collapseActionView=0x7f07000d;
         public static final int container=0x7f07003c;
         public static final int deactivate_btn=0x7f070043;
+        public static final int debug_btn=0x7f070044;
         public static final int default_activity_button=0x7f070028;
         public static final int dialog=0x7f07000e;
         public static final int disableHome=0x7f070008;
@@ -1123,9 +1133,9 @@ containing a value of this type.
         public static final int image=0x7f070027;
         public static final int listMode=0x7f070001;
         public static final int list_item=0x7f070029;
-        public static final int menu_main_about=0x7f070045;
-        public static final int menu_main_settings=0x7f070044;
-        public static final int menu_overflow=0x7f070047;
+        public static final int menu_main_about=0x7f070046;
+        public static final int menu_main_settings=0x7f070045;
+        public static final int menu_overflow=0x7f070048;
         public static final int middle=0x7f070012;
         public static final int mon_status_icon=0x7f070040;
         public static final int never=0x7f070009;
@@ -1219,10 +1229,10 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f03001e;
     }
     public static final class menu {
-        public static final int drop_down_menu=0x7f0e0000;
-        public static final int main=0x7f0e0001;
-        public static final int main_activity_actions=0x7f0e0002;
-        public static final int show_registry=0x7f0e0003;
+        public static final int drop_down_menu=0x7f0f0000;
+        public static final int main=0x7f0f0001;
+        public static final int main_activity_actions=0x7f0f0002;
+        public static final int show_registry=0x7f0f0003;
     }
     public static final class raw {
         public static final int supported_apps=0x7f060000;
@@ -1272,7 +1282,7 @@ containing a value of this type.
         /**  string name="title_activity_display_message">Your message</string 
 string name="title_activity_display_message">Tu mensaje</string
          */
-        public static final int action_search=0x7f0c0017;
+        public static final int action_search=0x7f0c0018;
         public static final int action_settings=0x7f0c0012;
         /**  MAIN ACTIVITY 
  MAIN ACTIVITY 
@@ -1286,55 +1296,60 @@ string name="button_send">Enviar</string
         public static final int button_activate=0x7f0c0014;
         public static final int button_activity=0x7f0c0016;
         public static final int button_deactivate=0x7f0c0015;
+        public static final int button_debug=0x7f0c0017;
         public static final int cancel_btn=0x7f0c000f;
-        public static final int enter_password=0x7f0c0018;
-        public static final int enter_pwd_txt=0x7f0c001a;
+        public static final int enter_password=0x7f0c0019;
+        public static final int enter_pwd_txt=0x7f0c001b;
         /**  SET PASSWORD DIALOG 
          */
         public static final int error=0x7f0c0010;
-        public static final int hello_world=0x7f0c001f;
-        public static final int key_email_addr=0x7f0c002a;
+        public static final int hello_world=0x7f0c0020;
+        public static final int key_applist=0x7f0c002c;
+        public static final int key_email_addr=0x7f0c002b;
         /**  Config strings (not translation needed) 
          */
-        public static final int key_monitoring_active=0x7f0c0027;
-        public static final int key_password=0x7f0c0029;
-        public static final int key_password_set=0x7f0c0028;
-        public static final int mon_activated=0x7f0c0023;
-        public static final int mon_deactivated=0x7f0c0024;
-        public static final int monit_active=0x7f0c0026;
+        public static final int key_monitoring_active=0x7f0c0028;
+        public static final int key_password=0x7f0c002a;
+        public static final int key_password_set=0x7f0c0029;
+        public static final int mon_activated=0x7f0c0024;
+        public static final int mon_deactivated=0x7f0c0025;
+        public static final int monit_active=0x7f0c0027;
         /**  Other strings 
  Other strings 
          */
-        public static final int monit_inactive=0x7f0c0025;
+        public static final int monit_inactive=0x7f0c0026;
         /**  string name="hello_world">Hello world!</string 
 string name="hello_world">Hola chache!</string
          */
         public static final int monitor_status_is=0x7f0c0011;
-        public static final int no_pwd_active=0x7f0c001d;
-        public static final int no_reg_access=0x7f0c001c;
-        public static final int no_settings=0x7f0c0022;
+        public static final int no_pwd_active=0x7f0c001e;
+        public static final int no_reg_access=0x7f0c001d;
+        public static final int no_settings=0x7f0c0023;
         /**  Toast's strings 
  Toast's strings 
          */
-        public static final int not_implemented=0x7f0c0021;
+        public static final int not_implemented=0x7f0c0022;
         public static final int ok_btn=0x7f0c000e;
-        public static final int pref_desc_activate_monitoring=0x7f0c002e;
+        public static final int pref_desc_activate_monitoring=0x7f0c0031;
+        public static final int pref_header_applist=0x7f0c002f;
         /**  Strings related to Settings 
          */
-        public static final int pref_header_general=0x7f0c002c;
-        public static final int pref_hint_email_addr=0x7f0c002f;
-        public static final int pref_title_activate_monitoring=0x7f0c002d;
-        public static final int pref_title_email_addr=0x7f0c0030;
+        public static final int pref_header_general=0x7f0c002e;
+        public static final int pref_hint_email_addr=0x7f0c0032;
+        public static final int pref_summ_applist=0x7f0c0035;
+        public static final int pref_title_activate_monitoring=0x7f0c0030;
+        public static final int pref_title_applist=0x7f0c0034;
+        public static final int pref_title_email_addr=0x7f0c0033;
         /**  SET PASSWORD DIALOG 
          */
-        public static final int pwd_not_match=0x7f0c0020;
-        public static final int set_pwd_txt=0x7f0c0019;
-        public static final int title_activity_settings=0x7f0c002b;
+        public static final int pwd_not_match=0x7f0c0021;
+        public static final int set_pwd_txt=0x7f0c001a;
+        public static final int title_activity_settings=0x7f0c002d;
         /**  SHOW REGISTRY ACTIVITY 
  SHOW REGISTRY ACTIVITY 
          */
-        public static final int title_activity_show_registry=0x7f0c001e;
-        public static final int wrong_pwd=0x7f0c001b;
+        public static final int title_activity_show_registry=0x7f0c001f;
+        public static final int wrong_pwd=0x7f0c001c;
     }
     public static final class style {
         /** 
@@ -1574,10 +1589,11 @@ style name="AppBaseTheme" parent="Theme.AppCompat.Light"
         public static final int Widget_AppCompat_Spinner_DropDown_ActionBar=0x7f0d0022;
     }
     public static final class xml {
-        public static final int pref_data_sync=0x7f050000;
-        public static final int pref_general=0x7f050001;
-        public static final int pref_headers=0x7f050002;
-        public static final int pref_notification=0x7f050003;
+        public static final int pref_applist=0x7f050000;
+        public static final int pref_data_sync=0x7f050001;
+        public static final int pref_general=0x7f050002;
+        public static final int pref_headers=0x7f050003;
+        public static final int pref_notification=0x7f050004;
     }
     public static final class styleable {
         /**  ============================================ 
@@ -2799,6 +2815,33 @@ containing a value of this type.
           @attr name android:windowAnimationStyle
         */
         public static final int MenuView_android_windowAnimationStyle = 0;
+        /** Attributes that can be used with a MultiSelectListPreference.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #MultiSelectListPreference_android_entries android:entries}</code></td><td></td></tr>
+           <tr><td><code>{@link #MultiSelectListPreference_android_entryValues android:entryValues}</code></td><td></td></tr>
+           </table>
+           @see #MultiSelectListPreference_android_entries
+           @see #MultiSelectListPreference_android_entryValues
+         */
+        public static final int[] MultiSelectListPreference = {
+            0x010100b2, 0x010101f8
+        };
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#entries}
+          attribute's value can be found in the {@link #MultiSelectListPreference} array.
+          @attr name android:entries
+        */
+        public static final int MultiSelectListPreference_android_entries = 0;
+        /**
+          <p>This symbol is the offset where the {@link android.R.attr#entryValues}
+          attribute's value can be found in the {@link #MultiSelectListPreference} array.
+          @attr name android:entryValues
+        */
+        public static final int MultiSelectListPreference_android_entryValues = 1;
         /** Attributes that can be used with a SearchView.
            <p>Includes the following attributes:</p>
            <table>

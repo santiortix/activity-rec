@@ -1,5 +1,10 @@
 package com.startapps.activityrec;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,14 +26,17 @@ import android.widget.ImageView;
 
 import com.startapps.activityrec.activities.SettingsActivity;
 import com.startapps.activityrec.activities.ShowRegistryActivity;
+import com.startapps.activityrec.content.SharedPreferenceCompat;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordAction;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordListener;
 import com.startapps.activityrec.dialogs.SetPasswordDialog;
 import com.startapps.activityrec.dialogs.SetPasswordDialog.SetPasswordListener;
 import com.startapps.activityrec.utils.MainUtils;
+import com.startapps.activityrec.utils.PreferenceUtils;
 
-public class MainActivity extends ActionBarActivity /*FragmentActivity*/ implements SetPasswordListener, EnterPasswordListener
+public class MainActivity extends ActionBarActivity /*FragmentActivity*/
+	implements SetPasswordListener, EnterPasswordListener/*, SharedPreferences.OnSharedPreferenceChangeListener*/	
 {
 	
 	public final static String EXTRA_MESSAGE = "com.startapps.activityrec.MESSAGE";
@@ -45,8 +53,9 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 		/*SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(R.string., value)*/
 		
-		// Creamos la instancia de MainUtils
-		MainUtils.getInstance().setActivity(this);		
+		// Creamos la instancia de MainUtils y PreferenceUtils
+		MainUtils.getInstance().setActivity(this);
+		PreferenceUtils.getInstance().setActivity(this);
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment()).commit();
@@ -64,7 +73,18 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 	{
 		super.onResume();
 		changeMainAppearance();
+		//getPrefs().registerOnSharedPreferenceChangeListener(this);
 	}
+	
+	/*@Override
+    protected void onPause() {
+        getPrefs().unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+	
+	private SharedPreferences getPrefs() {
+        return PreferenceManager.getDefaultSharedPreferences(this);
+    }*/
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,7 +161,7 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 		if (statusActive)
 		{
 			// Pedir la clave (si está establecida)
-			if (MainUtils.getInstance().checkPrefsPasswordEnabled())
+			if (PreferenceUtils.getInstance().checkPrefsPasswordEnabled())
 			{
 				android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 				EnterPasswordDialog epd = new EnterPasswordDialog();
@@ -157,6 +177,25 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 		{
 			MainUtils.getInstance().showToastLong(R.string.no_reg_access);
 		}
+	}
+	
+	public void showDebugInfo(View view)
+	{
+		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+		//Set<String> apps = prefs.getStringSet(getString(R.string.key_applist), new HashSet<String>());
+		
+		final Set<String> defValues = new HashSet<String>();
+        defValues.addAll(Arrays.asList(getResources().getStringArray(R.array.pref_applist_defaults)));
+		
+		final Set<String> values = SharedPreferenceCompat.getStringSet(prefs, getString(R.string.key_applist), defValues);
+		String[] allValues = getResources().getStringArray(R.array.pref_applist_values);
+        String[] allNames = getResources().getStringArray(R.array.pref_applist_titles);
+		String msg = MainUtils.getInstance().makeSummaryText("", values, allValues, allNames);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(msg).setTitle("Debug Info");
+		AlertDialog errDiag = builder.create();
+		errDiag.show();
 	}
 	
 	public void showAboutDialog()
@@ -210,7 +249,7 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 	
 	public void setPasswordClick(String pwd)
 	{
-		MainUtils.getInstance().enablePrefsActivityRegistry(pwd);
+		PreferenceUtils.getInstance().enablePrefsActivityRegistry(pwd);
 		statusActive = true;
 		
 		// Refresh view
@@ -221,9 +260,9 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 	public void enterPasswordDisable(String pwd)
 	{
 		boolean deact = false;
-		if (MainUtils.getInstance().checkPrefsPasswordEnabled())
+		if (PreferenceUtils.getInstance().checkPrefsPasswordEnabled())
 		{
-			String m_pwd = MainUtils.getInstance().getPrefsMasterPassword();
+			String m_pwd = PreferenceUtils.getInstance().getPrefsMasterPassword();
 			deact = m_pwd.equalsIgnoreCase(pwd);
 		}
 		else
@@ -233,7 +272,7 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 		
 		if (deact)
 		{
-			MainUtils.getInstance().disablePrefsActivityRegistry();
+			PreferenceUtils.getInstance().disablePrefsActivityRegistry();
 			statusActive = false;
 			
 			// Refresh view
@@ -249,9 +288,9 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 	public void enterPasswordAccessSettings(String pwd)
 	{
 		boolean access = false;
-		if (MainUtils.getInstance().checkPrefsPasswordEnabled())
+		if (PreferenceUtils.getInstance().checkPrefsPasswordEnabled())
 		{
-			String m_pwd = MainUtils.getInstance().getPrefsMasterPassword();
+			String m_pwd = PreferenceUtils.getInstance().getPrefsMasterPassword();
 			access = m_pwd.equalsIgnoreCase(pwd);
 		}
 		else
@@ -273,9 +312,9 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/ impleme
 	public void enterPasswordAccessRegistry(String pwd)
 	{
 		boolean access = false;
-		if (MainUtils.getInstance().checkPrefsPasswordEnabled())
+		if (PreferenceUtils.getInstance().checkPrefsPasswordEnabled())
 		{
-			String m_pwd = MainUtils.getInstance().getPrefsMasterPassword();
+			String m_pwd = PreferenceUtils.getInstance().getPrefsMasterPassword();
 			access = m_pwd.equalsIgnoreCase(pwd);
 		}
 		else
