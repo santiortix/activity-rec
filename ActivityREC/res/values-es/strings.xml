@@ -7,6 +7,8 @@
     <string name="cancel_btn">Cancelar</string>
     <!--string name="hello_world">Hola chache!</string-->
     <string name="monitor_status_is">La monitorización está &#8230;</string>
+    <string name="mon_status_txt_inactive">Inactiva</string>
+    <string name="mon_status_txt_active">Activa</string>
     <string name="action_settings">Settings</string>
     <string name="action_about">Acerca de</string>
     <!--string name="edit_message">Escribe algo</string-->
@@ -22,6 +24,12 @@
     <string name="wrong_pwd">La contraseña no es válida</string>
     <string name="no_reg_access">El registro de actividad está desactivado, no se puede acceder</string>
     <string name="no_pwd_active">Registry is active but there\'s no password set. Please restart monitoring and set a new master password.</string>
+    
+    <!-- Registry LOG messages -->
+    <string name="log_act_activation">Activación de la monitorización (contraseña establecida)</string>
+    <string name="log_act_deactivation">Desactivación de la monitorización</string>
+    <string name="log_act_view_settings">Acceso a la página de settings de la app</string>
+    <string name="log_act_change_settings">Cambio en la configuración de la app</string>
     
     <!-- SHOW REGISTRY ACTIVITY -->
     <string name="title_activity_show_registry">ShowRegistryActivity</string>
@@ -40,5 +48,9 @@
     <!-- Other strings -->
     <string name="monit_inactive">La monitorización está inactiva</string>
     <string name="monit_active">La monitorización está activa</string>
+    
+    <!-- Error strings -->
+    <string name="err_logfile_write">Error escribiendo actividad en el fichero de log &#8230;</string>
+    <string name="err_logfile_read">Error leyendo actividad desde fichero de log &#8230;</string>
 
 </resources>

@@ -1,8 +1,8 @@
 package com.startapps.activityrec.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.startapps.activityrec.R;
 
@@ -32,19 +32,19 @@ public class PreferenceUtils
 	
 	public final boolean checkPrefsMonitoringActive()
 	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		return prefs.getBoolean(mainActivity.getString(R.string.key_monitoring_active), false);
 	}
 	
 	public final boolean checkPrefsPasswordEnabled()
 	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		return prefs.getBoolean(mainActivity.getString(R.string.key_password_set), false);
 	}
 	
 	public final void disablePrefsActivityRegistry()
 	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(mainActivity.getString(R.string.key_monitoring_active), false);
 		editor.putBoolean(mainActivity.getString(R.string.key_password_set), false);
@@ -54,7 +54,7 @@ public class PreferenceUtils
 	
 	public final void enablePrefsActivityRegistry(final String pwd)
 	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(mainActivity.getString(R.string.key_monitoring_active), true);
 		editor.putBoolean(mainActivity.getString(R.string.key_password_set), true);
@@ -64,7 +64,12 @@ public class PreferenceUtils
 	
 	public final String getPrefsMasterPassword()
 	{
-		SharedPreferences prefs = mainActivity.getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		return prefs.getString(mainActivity.getString(R.string.key_password), "-1");
+	}
+	
+	private SharedPreferences getPrefs()
+	{
+		return PreferenceManager.getDefaultSharedPreferences(mainActivity);
 	}
 }

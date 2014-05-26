@@ -1,15 +1,15 @@
 package com.startapps.activityrec;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -22,16 +22,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.startapps.activityrec.activities.SettingsActivity;
 import com.startapps.activityrec.activities.ShowRegistryActivity;
-import com.startapps.activityrec.content.SharedPreferenceCompat;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordAction;
 import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordListener;
 import com.startapps.activityrec.dialogs.SetPasswordDialog;
 import com.startapps.activityrec.dialogs.SetPasswordDialog.SetPasswordListener;
+import com.startapps.activityrec.types.ActivityRecord;
+import com.startapps.activityrec.types.RecordType;
+import com.startapps.activityrec.types.SortedList;
+import com.startapps.activityrec.utils.ActivityLog;
 import com.startapps.activityrec.utils.MainUtils;
 import com.startapps.activityrec.utils.PreferenceUtils;
 
@@ -42,13 +45,14 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	public final static String EXTRA_MESSAGE = "com.startapps.activityrec.MESSAGE";
 	
 	private boolean statusActive = false;
+	private final ActivityLog LOG = ActivityLog.getInstance();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		statusActive = prefs.getBoolean(getString(R.string.key_monitoring_active), false);
 		/*SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(R.string., value)*/
@@ -166,7 +170,7 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 				android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
 				EnterPasswordDialog epd = new EnterPasswordDialog();
 				epd.setAction(EnterPasswordAction.ACCESS_SETTINGS);
-				epd.show(fm, "fragment_enter_password");				
+				epd.show(fm, "fragment_enter_password");
 			}
 			else
 			{
@@ -181,21 +185,52 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	
 	public void showDebugInfo(View view)
 	{
-		SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+		/*
+		//SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
+		SharedPreferences prefs = getPrefs();
 		//Set<String> apps = prefs.getStringSet(getString(R.string.key_applist), new HashSet<String>());
 		
 		final Set<String> defValues = new HashSet<String>();
-        defValues.addAll(Arrays.asList(getResources().getStringArray(R.array.pref_applist_defaults)));
+		String[] sDefValues = getResources().getStringArray(R.array.pref_applist_defaults);
+        defValues.addAll(Arrays.asList(sDefValues));
 		
 		final Set<String> values = SharedPreferenceCompat.getStringSet(prefs, getString(R.string.key_applist), defValues);
 		String[] allValues = getResources().getStringArray(R.array.pref_applist_values);
         String[] allNames = getResources().getStringArray(R.array.pref_applist_titles);
 		String msg = MainUtils.getInstance().makeSummaryText("", values, allValues, allNames);
+		*/
+		String msg = "";
+		try
+		{
+			/*StorageUtils su = new StorageUtils();
+			File f = su.getStatusLogFile(this);
+			FileInputStream fis = new FileInputStream(f);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			ActivityRecord ar = (ActivityRecord)ois.readObject();
+			ois.close();*/
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			SortedList<ActivityRecord> logs = LOG.getActivityLog(this);
+			for (ActivityRecord record : logs)
+			{
+				msg += "[" + sdf.format(record.getTimestamp()) + "] - " + getString(record.getMessageIdx()) + "\n";
+			} 
+			
+		}
+		catch (IOException e)
+		{
+			MainUtils.getInstance().showToastLong(R.string.err_logfile_read);
+		}
+		catch (ClassNotFoundException e)
+		{
+			MainUtils.getInstance().showToastLong(R.string.err_logfile_read);
+		}
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(msg).setTitle("Debug Info");
 		AlertDialog errDiag = builder.create();
 		errDiag.show();
+		
 	}
 	
 	public void showAboutDialog()
@@ -230,17 +265,22 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		Button dea_btn = (Button) findViewById(R.id.deactivate_btn);
 		Button via_btn = (Button) findViewById(R.id.activity_btn);
 		
-		ImageView img = (ImageView)findViewById(R.id.mon_status_icon);
+		//ImageView img = (ImageView)findViewById(R.id.mon_status_icon);
+		TextView status = (TextView)findViewById(R.id.mon_status_text);
 		if (statusActive)
 		{
-			img.setImageResource(R.drawable.monit_active);
+			//img.setImageResource(R.drawable.monit_active);
+			status.setText(getString(R.string.mon_status_txt_active).toUpperCase());
+			status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.monit_active_icon,0,0,0);
 			act_btn.setVisibility(View.GONE);
 			dea_btn.setVisibility(View.VISIBLE);
 			via_btn.setVisibility(View.VISIBLE);
 		}
 		else
 		{
-			img.setImageResource(R.drawable.monit_inactive);
+			//img.setImageResource(R.drawable.monit_inactive);
+			status.setText(getString(R.string.mon_status_txt_inactive).toUpperCase());
+			status.setCompoundDrawablesWithIntrinsicBounds(R.drawable.monit_inactive_icon,0,0,0);
 			act_btn.setVisibility(View.VISIBLE);
 			dea_btn.setVisibility(View.GONE);
 			via_btn.setVisibility(View.GONE);
@@ -249,8 +289,23 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	
 	public void setPasswordClick(String pwd)
 	{
+		// Establecemos el registro de actividad a activo en las preferencias
 		PreferenceUtils.getInstance().enablePrefsActivityRegistry(pwd);
 		statusActive = true;
+		
+		// Guardamos en el fichero de LOG la activación de la monitorización
+		try
+		{
+			LOG.appendActivityRecord(this, new ActivityRecord(new Date(), R.string.log_act_activation,RecordType.ACTIVATION));
+		}
+		catch (IOException e)
+		{
+			MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+		}
+		catch (ClassNotFoundException e)
+		{
+			MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+		}
 		
 		// Refresh view
 		changeMainAppearance();
@@ -272,8 +327,23 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		
 		if (deact)
 		{
+			// Establecemos el registro de actividad a desactivado en las preferencias
 			PreferenceUtils.getInstance().disablePrefsActivityRegistry();
 			statusActive = false;
+			
+			// Guardamos en el fichero de LOG la desactivación de la monitorización
+			try
+			{
+				LOG.appendActivityRecord(this, new ActivityRecord(new Date(), R.string.log_act_deactivation,RecordType.DEACTIVATION));
+			}
+			catch (IOException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
+			catch (ClassNotFoundException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
 			
 			// Refresh view
 			changeMainAppearance();
@@ -300,6 +370,19 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		
 		if (access)
 		{
+			try
+			{
+				LOG.appendActivityRecord(this, new ActivityRecord(new Date(),R.string.log_act_view_settings,RecordType.VIEW_SETTINGS));
+			}
+			catch (IOException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
+			catch (ClassNotFoundException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
+			
 			Intent intent = new Intent(this, SettingsActivity.class);
 		    startActivity(intent);
 		}
@@ -332,6 +415,11 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 			MainUtils.getInstance().showToastLong(R.string.wrong_pwd);
 		}
 	}
+	
+	private SharedPreferences getPrefs()
+	{
+        return PreferenceManager.getDefaultSharedPreferences(this);
+    }
 
 	/**
 	 * A placeholder fragment containing a simple view.

@@ -13,12 +13,50 @@
         android:gravity="center"
         android:text="@string/monitor_status_is" />
     
-    <ImageView android:id="@+id/mon_status_icon"
+    <!--
+    <LinearLayout 
         android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:gravity="center_vertical"
+	    android:orientation="horizontal"
+	    tools:context="org.spmob.fisrtspmob.MainActivity$PlaceholderFragment" >
+    
+	    <ImageView android:id="@+id/mon_status_icon"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:contentDescription="@string/monit_inactive"
+	        android:src="@drawable/monit_inactive_icon"/>
+	    
+	    <TextView android:id="@+id/mon_status_text"
+	        android:textAllCaps="true"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:text="@string/mon_status_txt_inactive" />
+    
+    </LinearLayout>
+    -->
+    
+    <TextView
+        android:id="@+id/mon_status_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/monit_inactive_icon"
+        android:drawablePadding="10dp"
         android:gravity="center"
-        android:contentDescription="@string/monit_inactive"
-        android:src="@drawable/monit_inactive"/>
+        android:text="@string/mon_status_txt_inactive" 
+        style="@style/statusLabel"
+        android:textAllCaps="true"/>
+    
+    <!--ImageView android:id="@+id/mon_status_icon"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center"
+	        android:contentDescription="@string/monit_inactive"
+	        android:src="@drawable/monit_inactive"/-->
 
     <Button
         android:id="@+id/activate_btn"
