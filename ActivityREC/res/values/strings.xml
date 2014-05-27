@@ -18,6 +18,7 @@
     <string name="button_deactivate">Deactivate</string>
     <string name="button_activity">View activity</string>
     <string name="button_debug">Debug</string>
+    <string name="button_clearlog">Clear Logs</string>
     <!-- string name="title_activity_display_message">Your message</string -->
     <string name="action_search">Search</string>
     <string name="enter_password">Enter password</string>
@@ -26,12 +27,17 @@
     <string name="wrong_pwd">Wrong master password</string>
     <string name="no_reg_access">Activity registry is not active, can\'t access</string>
     <string name="no_pwd_active">Registry is active but there\'s no password set. Please restart monitoring and set a new master password.</string>
+    <string name="clearlog_ok">Log files have been successfully cleaned</string>
     
     <!-- Registry LOG messages -->
     <string name="log_act_activation">Activity monitoring activation (password set)</string>
     <string name="log_act_deactivation">Activity monitoring deactivation</string>
     <string name="log_act_view_settings">Access to app settings page</string>
     <string name="log_act_change_settings">Change some app setting</string>
+    <string name="log_act_incoming_call">Incoming call</string>
+    <string name="log_act_outgoing_call">Outgoing call</string>
+    <string name="log_act_missed_call">Missed call</string>
+    <string name="log_act_incoming_sms">Incoming SMS</string>
     
     <!-- SHOW REGISTRY ACTIVITY -->
     <string name="title_activity_show_registry">ShowRegistryActivity</string>
@@ -53,6 +59,8 @@
     <!-- Error strings -->
     <string name="err_logfile_write">Error writting activity to error log file &#8230;</string>
     <string name="err_logfile_read">Error reading activity from error log file &#8230;</string>
+    <string name="err_service_start">Error starting monitoring service &#8230;</string>
+    <string name="err_service_stop">Error stopping monitoring service &#8230; No service found or an error occurred</string>
 
     <!-- Config strings (not translation needed) -->
     <string name="key_monitoring_active">monitoring_active</string>

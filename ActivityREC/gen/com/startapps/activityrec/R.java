@@ -1109,13 +1109,14 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f070016;
         public static final int action_menu_presenter=0x7f070017;
         public static final int action_mode_close_button=0x7f070024;
-        public static final int action_settings=0x7f070047;
+        public static final int action_settings=0x7f070048;
         public static final int activate_btn=0x7f070041;
         public static final int activity_btn=0x7f070042;
         public static final int activity_chooser_view_content=0x7f070025;
         public static final int always=0x7f07000b;
         public static final int beginning=0x7f070011;
         public static final int checkbox=0x7f07002d;
+        public static final int clearlog_btn=0x7f070045;
         public static final int collapseActionView=0x7f07000d;
         public static final int container=0x7f07003c;
         public static final int deactivate_btn=0x7f070043;
@@ -1135,9 +1136,9 @@ containing a value of this type.
         public static final int image=0x7f070027;
         public static final int listMode=0x7f070001;
         public static final int list_item=0x7f070029;
-        public static final int menu_main_about=0x7f070046;
-        public static final int menu_main_settings=0x7f070045;
-        public static final int menu_overflow=0x7f070048;
+        public static final int menu_main_about=0x7f070047;
+        public static final int menu_main_settings=0x7f070046;
+        public static final int menu_overflow=0x7f070049;
         public static final int middle=0x7f070012;
         public static final int mon_status_text=0x7f070040;
         public static final int never=0x7f070009;
@@ -1284,7 +1285,7 @@ containing a value of this type.
         /**  string name="title_activity_display_message">Your message</string 
 string name="title_activity_display_message">Tu mensaje</string
          */
-        public static final int action_search=0x7f0c001a;
+        public static final int action_search=0x7f0c001b;
         public static final int action_settings=0x7f0c0014;
         /**  MAIN ACTIVITY 
  MAIN ACTIVITY 
@@ -1297,75 +1298,83 @@ string name="button_send">Enviar</string
          */
         public static final int button_activate=0x7f0c0016;
         public static final int button_activity=0x7f0c0018;
+        public static final int button_clearlog=0x7f0c001a;
         public static final int button_deactivate=0x7f0c0017;
         public static final int button_debug=0x7f0c0019;
         public static final int cancel_btn=0x7f0c000f;
-        public static final int enter_password=0x7f0c001b;
-        public static final int enter_pwd_txt=0x7f0c001d;
-        public static final int err_logfile_read=0x7f0c002f;
+        public static final int clearlog_ok=0x7f0c0022;
+        public static final int enter_password=0x7f0c001c;
+        public static final int enter_pwd_txt=0x7f0c001e;
+        public static final int err_logfile_read=0x7f0c0035;
         /**  Error strings 
  Error strings 
          */
-        public static final int err_logfile_write=0x7f0c002e;
+        public static final int err_logfile_write=0x7f0c0034;
+        public static final int err_service_start=0x7f0c0036;
+        public static final int err_service_stop=0x7f0c0037;
         /**  SET PASSWORD DIALOG 
          */
         public static final int error=0x7f0c0010;
-        public static final int hello_world=0x7f0c0026;
-        public static final int key_applist=0x7f0c0034;
-        public static final int key_email_addr=0x7f0c0033;
+        public static final int hello_world=0x7f0c002c;
+        public static final int key_applist=0x7f0c003c;
+        public static final int key_email_addr=0x7f0c003b;
         /**  Config strings (not translation needed) 
          */
-        public static final int key_monitoring_active=0x7f0c0030;
-        public static final int key_password=0x7f0c0032;
-        public static final int key_password_set=0x7f0c0031;
+        public static final int key_monitoring_active=0x7f0c0038;
+        public static final int key_password=0x7f0c003a;
+        public static final int key_password_set=0x7f0c0039;
         /**  Registry LOG messages 
  Registry LOG messages 
          */
-        public static final int log_act_activation=0x7f0c0021;
-        public static final int log_act_change_settings=0x7f0c0024;
-        public static final int log_act_deactivation=0x7f0c0022;
-        public static final int log_act_view_settings=0x7f0c0023;
-        public static final int mon_activated=0x7f0c002a;
-        public static final int mon_deactivated=0x7f0c002b;
+        public static final int log_act_activation=0x7f0c0023;
+        public static final int log_act_change_settings=0x7f0c0026;
+        public static final int log_act_deactivation=0x7f0c0024;
+        public static final int log_act_incoming_call=0x7f0c0027;
+        public static final int log_act_incoming_sms=0x7f0c002a;
+        public static final int log_act_missed_call=0x7f0c0029;
+        public static final int log_act_outgoing_call=0x7f0c0028;
+        public static final int log_act_view_settings=0x7f0c0025;
+        public static final int mon_activated=0x7f0c0030;
+        public static final int mon_deactivated=0x7f0c0031;
         public static final int mon_status_txt_active=0x7f0c0013;
         public static final int mon_status_txt_inactive=0x7f0c0012;
-        public static final int monit_active=0x7f0c002d;
+        public static final int monit_active=0x7f0c0033;
         /**  Other strings 
  Other strings 
          */
-        public static final int monit_inactive=0x7f0c002c;
+        public static final int monit_inactive=0x7f0c0032;
         /**  string name="hello_world">Hello world!</string 
 string name="hello_world">Hola chache!</string
          */
         public static final int monitor_status_is=0x7f0c0011;
-        public static final int no_pwd_active=0x7f0c0020;
-        public static final int no_reg_access=0x7f0c001f;
-        public static final int no_settings=0x7f0c0029;
+        public static final int no_pwd_active=0x7f0c0021;
+        public static final int no_reg_access=0x7f0c0020;
+        public static final int no_settings=0x7f0c002f;
         /**  Toast's strings 
  Toast's strings 
          */
-        public static final int not_implemented=0x7f0c0028;
+        public static final int not_implemented=0x7f0c002e;
         public static final int ok_btn=0x7f0c000e;
-        public static final int pref_desc_activate_monitoring=0x7f0c0039;
-        public static final int pref_header_applist=0x7f0c0037;
+        public static final int pref_desc_activate_monitoring=0x7f0c0041;
+        public static final int pref_header_applist=0x7f0c003f;
         /**  Strings related to Settings 
          */
-        public static final int pref_header_general=0x7f0c0036;
-        public static final int pref_hint_email_addr=0x7f0c003a;
-        public static final int pref_summ_applist=0x7f0c003d;
-        public static final int pref_title_activate_monitoring=0x7f0c0038;
-        public static final int pref_title_applist=0x7f0c003c;
-        public static final int pref_title_email_addr=0x7f0c003b;
+        public static final int pref_header_general=0x7f0c003e;
+        public static final int pref_hint_email_addr=0x7f0c0042;
+        public static final int pref_summ_applist=0x7f0c0045;
+        public static final int pref_title_activate_monitoring=0x7f0c0040;
+        public static final int pref_title_applist=0x7f0c0044;
+        public static final int pref_title_email_addr=0x7f0c0043;
         /**  SET PASSWORD DIALOG 
          */
-        public static final int pwd_not_match=0x7f0c0027;
-        public static final int set_pwd_txt=0x7f0c001c;
-        public static final int title_activity_settings=0x7f0c0035;
+        public static final int pwd_not_match=0x7f0c002d;
+        public static final int set_pwd_txt=0x7f0c001d;
+        public static final int title_activity_settings=0x7f0c003d;
         /**  SHOW REGISTRY ACTIVITY 
  SHOW REGISTRY ACTIVITY 
          */
-        public static final int title_activity_show_registry=0x7f0c0025;
-        public static final int wrong_pwd=0x7f0c001e;
+        public static final int title_activity_show_registry=0x7f0c002b;
+        public static final int wrong_pwd=0x7f0c001f;
     }
     public static final class style {
         /** 

@@ -16,6 +16,7 @@
     <string name="button_activate">Activar</string>
     <string name="button_deactivate">Desactivar</string>
     <string name="button_activity">Ver actividad</string>
+    <string name="button_clearlog">Borrar Logs</string>
     <!--string name="title_activity_display_message">Tu mensaje</string-->
     <string name="action_search">Buscar</string>
     <string name="enter_password">Contraseña</string>
@@ -24,12 +25,17 @@
     <string name="wrong_pwd">La contraseña no es válida</string>
     <string name="no_reg_access">El registro de actividad está desactivado, no se puede acceder</string>
     <string name="no_pwd_active">Registry is active but there\'s no password set. Please restart monitoring and set a new master password.</string>
+    <string name="clearlog_ok">Los ficheros de log se han limpiado correctamente</string>
     
     <!-- Registry LOG messages -->
     <string name="log_act_activation">Activación de la monitorización (contraseña establecida)</string>
     <string name="log_act_deactivation">Desactivación de la monitorización</string>
     <string name="log_act_view_settings">Acceso a la página de settings de la app</string>
     <string name="log_act_change_settings">Cambio en la configuración de la app</string>
+    <string name="log_act_incoming_call">Llamada entrante</string>
+    <string name="log_act_outgoing_call">Llamada saliente</string>
+    <string name="log_act_missed_call">Llamada perdida</string>
+    <string name="log_act_incoming_sms">SMS entrante</string>
     
     <!-- SHOW REGISTRY ACTIVITY -->
     <string name="title_activity_show_registry">ShowRegistryActivity</string>
@@ -52,5 +58,7 @@
     <!-- Error strings -->
     <string name="err_logfile_write">Error escribiendo actividad en el fichero de log &#8230;</string>
     <string name="err_logfile_read">Error leyendo actividad desde fichero de log &#8230;</string>
+    <string name="err_service_start">Error al iniciar el servicio de monitorización &#8230;</string>
+    <string name="err_service_stop">Error al detener el servicio &#8230; Ocurrió un error o no se encontró el servicio</string>
 
 </resources>

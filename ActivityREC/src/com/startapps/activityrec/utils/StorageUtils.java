@@ -10,6 +10,7 @@ public class StorageUtils
 {
 	/** Nombre del fichero de registro de actividad */
 	private static final String LOG_FILE_NAME = "activityLog.acr";
+	private static final String PHCALLS_FILE_NAME = "phonecallsLog.acr";
 	
 	/* Checks if external storage is available for read and write */
 	public boolean isExternalStorageWritable()
@@ -46,6 +47,16 @@ public class StorageUtils
 	
 	public File getStatusLogFile(Context ctx) throws IOException
 	{
+		return getApplicationFile(ctx, LOG_FILE_NAME);
+	}
+	
+	public File getPhonecallsLogFile(Context ctx) throws IOException
+	{
+		return getApplicationFile(ctx, PHCALLS_FILE_NAME);
+	}
+	
+	private File getApplicationFile(final Context ctx, final String filename) throws IOException
+	{
 		// El proceso para encontrar este fichero es:
 		// A- Si el almacenamiento externo está disponible:
 		//   A.1- Si existe, se devuelve
@@ -59,7 +70,7 @@ public class StorageUtils
 		// A
 		if (isExternalStorageWritable())
 		{
-			File f = new File(getExternalDataStorageDir(ctx),LOG_FILE_NAME);
+			File f = new File(getExternalDataStorageDir(ctx),filename);
 			// A.1
 			if (f.exists())
 			{
@@ -68,7 +79,7 @@ public class StorageUtils
 			// A.2
 			else
 			{
-				f = new File(getInternalDataStorageDir(ctx),LOG_FILE_NAME);
+				f = new File(getInternalDataStorageDir(ctx),filename);
 				// A.2.1
 				if (f.exists())
 				{
@@ -78,7 +89,7 @@ public class StorageUtils
 				else //No existe ni en almacenamiento externo ni interno
 				{
 					// Lo creamos en el almacenamiento externo
-					f = new File(getExternalDataStorageDir(ctx),LOG_FILE_NAME);
+					f = new File(getExternalDataStorageDir(ctx),filename);
 					if (f.createNewFile())
 					{
 						return f;
@@ -86,7 +97,7 @@ public class StorageUtils
 					else
 					{
 						// Si falla, lo creamos en el almacenamiento interno
-						f = new File(getInternalDataStorageDir(ctx),LOG_FILE_NAME);
+						f = new File(getInternalDataStorageDir(ctx),filename);
 						f.createNewFile();
 						return f;
 					}
@@ -96,7 +107,7 @@ public class StorageUtils
 		// B
 		else
 		{
-			File f = new File(getInternalDataStorageDir(ctx),LOG_FILE_NAME);
+			File f = new File(getInternalDataStorageDir(ctx),filename);
 			// B.2
 			if (!f.exists())
 			{

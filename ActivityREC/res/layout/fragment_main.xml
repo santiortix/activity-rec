@@ -82,12 +82,30 @@
         android:layout_gravity="center"
         android:text="@string/button_deactivate" />
     
-    <Button 
-        android:id="@+id/debug_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="showDebugInfo"
-        android:layout_gravity="center"
-        android:text="@string/button_debug" />
+    <LinearLayout
+        android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:gravity="center_horizontal"
+	    android:orientation="horizontal" >
+        
+    	<Button 
+	        android:id="@+id/debug_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="showDebugInfo"
+	        android:layout_gravity="center"
+	        android:text="@string/button_debug" />
+    	
+    	<Button 
+	        android:id="@+id/clearlog_btn"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:onClick="clearLogFiles"
+	        android:layout_gravity="center"
+	        android:text="@string/button_clearlog" />
+    	
+   </LinearLayout>
+    
 
 </LinearLayout>

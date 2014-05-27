@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 
 import android.content.Context;
 
-import com.startapps.activityrec.types.ActivityRecord;
+import com.startapps.activityrec.types.AbstractRecord;
 import com.startapps.activityrec.types.SortedList;
 
 public class ActivityLog
@@ -34,7 +34,7 @@ public class ActivityLog
 	public void resetActivityLog(Context ctx) throws IOException
 	{
 		File log = su.getStatusLogFile(ctx);
-		SortedList<ActivityRecord> logRecord = new SortedList<ActivityRecord>();
+		SortedList<AbstractRecord> logRecord = new SortedList<AbstractRecord>();
 		FileOutputStream fos = new FileOutputStream(log);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(logRecord);
@@ -42,38 +42,48 @@ public class ActivityLog
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void appendActivityRecord(final Context ctx, final ActivityRecord ar) throws IOException, ClassNotFoundException
+	public void appendActivityRecord(final Context ctx, final AbstractRecord ar) throws IOException, ClassNotFoundException
 	{
 		// Leemos el contenido actual del fichero de log...
 		File log = su.getStatusLogFile(ctx);
 		FileInputStream fis = new FileInputStream(log);
-		ObjectInputStream ois = new ObjectInputStream(fis);
+		Object actual = null;
+		if (fis.available() > 0)
+		{
+			ObjectInputStream ois = new ObjectInputStream(fis);		
+			actual = ois.readObject();
+			ois.close();
+		}		
 		
-		Object actual = ois.readObject();
-		ois.close();
-		
-		SortedList<ActivityRecord> logRecord;
-		if (actual instanceof SortedList)
+		SortedList<AbstractRecord> logRecord;
+		if (actual == null)
+		{
+			// No encontramos nada en la lista
+			// Creamos una nueva lista con el nuevo record
+			logRecord = new SortedList<AbstractRecord>();
+			logRecord.add(ar);
+		}
+		else if (actual instanceof SortedList)
 		{
 			// Encontramos una lista en el fichero
-			logRecord = (SortedList<ActivityRecord>)actual;
+			logRecord = (SortedList<AbstractRecord>)actual;
 			// Añadimos el elemento y volvemos a escribir
 			logRecord.add(ar);
 		}
-		else if (actual instanceof ActivityRecord)
+		else if (actual instanceof AbstractRecord)
 		{
 			// Encontramos solo un record en el fichero
-			ActivityRecord record = (ActivityRecord)actual;
+			AbstractRecord record = (AbstractRecord)actual;
 			// Hacemos una lista con el record anterior y el nuevo
-			logRecord = new SortedList<ActivityRecord>();
+			logRecord = new SortedList<AbstractRecord>();
 			logRecord.add(record);
 			logRecord.add(ar);
 		}
 		else
 		{
-			// No encontramos nada en la lista
-			// Creamos una nueva lista con el nuevo record
-			logRecord = new SortedList<ActivityRecord>();
+			// Si no es ninguno de los casos anteriores
+			// Creamos una lista vacia y le añadimos el nuevo record
+			logRecord = new SortedList<AbstractRecord>();
 			logRecord.add(ar);
 		}
 		
@@ -87,7 +97,7 @@ public class ActivityLog
 	}
 	
 	@SuppressWarnings("unchecked")
-	public SortedList<ActivityRecord> getActivityLog(Context ctx) throws IOException, ClassNotFoundException
+	public SortedList<AbstractRecord> getActivityLog(Context ctx) throws IOException, ClassNotFoundException
 	{
 		File log = su.getStatusLogFile(ctx);
 		FileInputStream fis = new FileInputStream(log);
@@ -97,14 +107,14 @@ public class ActivityLog
 		ois.close();
 		if (actual instanceof SortedList)
 		{
-			return (SortedList<ActivityRecord>)actual;
+			return (SortedList<AbstractRecord>)actual;
 		}
-		else if (actual instanceof ActivityRecord)
+		else if (actual instanceof AbstractRecord)
 		{
 			// Encontramos solo un record en el fichero
-			ActivityRecord record = (ActivityRecord)actual;
+			AbstractRecord record = (AbstractRecord)actual;
 			// Hacemos una lista con el record anterior y el nuevo
-			SortedList<ActivityRecord> res = new SortedList<ActivityRecord>();
+			SortedList<AbstractRecord> res = new SortedList<AbstractRecord>();
 			res.add(record);
 			return res;
 		}

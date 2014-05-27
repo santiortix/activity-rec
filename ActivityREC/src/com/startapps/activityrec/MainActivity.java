@@ -1,10 +1,10 @@
 package com.startapps.activityrec;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -31,6 +31,8 @@ import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordAction
 import com.startapps.activityrec.dialogs.EnterPasswordDialog.EnterPasswordListener;
 import com.startapps.activityrec.dialogs.SetPasswordDialog;
 import com.startapps.activityrec.dialogs.SetPasswordDialog.SetPasswordListener;
+import com.startapps.activityrec.services.SvcCallsService;
+import com.startapps.activityrec.types.AbstractRecord;
 import com.startapps.activityrec.types.ActivityRecord;
 import com.startapps.activityrec.types.RecordType;
 import com.startapps.activityrec.types.SortedList;
@@ -54,8 +56,6 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		
 		SharedPreferences prefs = getPrefs();
 		statusActive = prefs.getBoolean(getString(R.string.key_monitoring_active), false);
-		/*SharedPreferences.Editor editor = prefs.edit();
-		editor.putBoolean(R.string., value)*/
 		
 		// Creamos la instancia de MainUtils y PreferenceUtils
 		MainUtils.getInstance().setActivity(this);
@@ -77,18 +77,36 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	{
 		super.onResume();
 		changeMainAppearance();
-		//getPrefs().registerOnSharedPreferenceChangeListener(this);
+		if (statusActive)
+		{
+			if (getApplicationContext().startService(new Intent(this, SvcCallsService.class)) == null)
+			{
+				// El estado es activo pero el servicio no estaba arrancado...
+				// pero no lo acabamos de arrancar :(
+				statusActive = false;				
+				changeMainAppearance();
+				MainUtils.getInstance().showToastLong(R.string.err_service_start);
+			}
+		}
 	}
 	
-	/*@Override
-    protected void onPause() {
-        getPrefs().unregisterOnSharedPreferenceChangeListener(this);
-        super.onPause();
-    }
-	
-	private SharedPreferences getPrefs() {
-        return PreferenceManager.getDefaultSharedPreferences(this);
-    }*/
+	@Override
+	public void onRestart()
+	{
+		super.onRestart();
+		changeMainAppearance();
+		if (statusActive)
+		{
+			if (getApplicationContext().startService(new Intent(this, SvcCallsService.class)) == null)
+			{
+				// El estado es activo pero el servicio no estaba arrancado...
+				// pero no lo acabamos de arrancar :(
+				statusActive = false;				
+				changeMainAppearance();
+				MainUtils.getInstance().showToastLong(R.string.err_service_start);
+			}
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,26 +117,18 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	    // Handle presses on the action bar items
-	    switch (item.getItemId()) {	    
-	        /*case R.id.action_search:
-	            openSearch();
-	            return true;*/
-	       case R.id.menu_overflow:
-	            showDropDown(R.id.menu_overflow);
-	            return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}
-	
-	/*private void openSearch()
+	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		Context context = getApplicationContext();
-		String text = getResources().getString(R.string.not_implemented);
-		Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-	}*/
+		// Handle presses on the action bar items
+		switch (item.getItemId())
+		{
+		case R.id.menu_overflow:
+			showDropDown(R.id.menu_overflow);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
 	
 	private void showDropDown(int dropDownId)
 	{
@@ -209,11 +219,11 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 			ActivityRecord ar = (ActivityRecord)ois.readObject();
 			ois.close();*/
 			
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-			SortedList<ActivityRecord> logs = LOG.getActivityLog(this);
-			for (ActivityRecord record : logs)
+			SortedList<AbstractRecord> logs = LOG.getActivityLog(this);
+			for (AbstractRecord record : logs)
 			{
-				msg += "[" + sdf.format(record.getTimestamp()) + "] - " + getString(record.getMessageIdx()) + "\n";
+				//msg += "[" + MainUtils.getInstance().formatDate(record.getTimestamp()) + "] - " + getString(record.getMessageIdx()) + "\n";
+				msg += record.getString(this) + "\n";
 			} 
 			
 		}
@@ -231,6 +241,19 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		AlertDialog errDiag = builder.create();
 		errDiag.show();
 		
+	}
+	
+	public void clearLogFiles(View view)
+	{
+		try
+		{
+			LOG.resetActivityLog(this);
+			MainUtils.getInstance().showToastLong(R.string.clearlog_ok);
+		}
+		catch (IOException e)
+		{
+			MainUtils.getInstance().showToastLong(R.string.err_logfile_read);
+		}
 	}
 	
 	public void showAboutDialog()
@@ -288,28 +311,38 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 	}
 	
 	public void setPasswordClick(String pwd)
-	{
-		// Establecemos el registro de actividad a activo en las preferencias
-		PreferenceUtils.getInstance().enablePrefsActivityRegistry(pwd);
-		statusActive = true;
+	{		
+		// Iniciamos el servicio
+		ComponentName name = getApplicationContext().startService(new Intent(this, SvcCallsService.class));
 		
-		// Guardamos en el fichero de LOG la activación de la monitorización
-		try
-		{
-			LOG.appendActivityRecord(this, new ActivityRecord(new Date(), R.string.log_act_activation,RecordType.ACTIVATION));
+		if (name != null)
+		{		
+			// Establecemos el registro de actividad a activo en las preferencias
+			PreferenceUtils.getInstance().enablePrefsActivityRegistry(pwd);
+			statusActive = true;
+			
+			// Guardamos en el fichero de LOG la activación de la monitorización
+			try
+			{
+				LOG.appendActivityRecord(this, new ActivityRecord(new Date(), R.string.log_act_activation,RecordType.ACTIVATION));
+			}
+			catch (IOException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
+			catch (ClassNotFoundException e)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			}
+			
+			// Refresh view
+			changeMainAppearance();
+			MainUtils.getInstance().showToast(R.string.mon_activated);
 		}
-		catch (IOException e)
+		else
 		{
-			MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
+			MainUtils.getInstance().showToastLong(R.string.err_service_start);
 		}
-		catch (ClassNotFoundException e)
-		{
-			MainUtils.getInstance().showToastLong(R.string.err_logfile_write);
-		}
-		
-		// Refresh view
-		changeMainAppearance();
-		MainUtils.getInstance().showToast(R.string.mon_activated);
 	}
 	
 	public void enterPasswordDisable(String pwd)
@@ -327,10 +360,13 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 		
 		if (deact)
 		{
+			// Detenemos el servicio de monitorización
+			boolean bStop = getApplicationContext().stopService(new Intent(this, SvcCallsService.class)); 
+						
 			// Establecemos el registro de actividad a desactivado en las preferencias
 			PreferenceUtils.getInstance().disablePrefsActivityRegistry();
 			statusActive = false;
-			
+				
 			// Guardamos en el fichero de LOG la desactivación de la monitorización
 			try
 			{
@@ -348,6 +384,11 @@ public class MainActivity extends ActionBarActivity /*FragmentActivity*/
 			// Refresh view
 			changeMainAppearance();
 			MainUtils.getInstance().showToast(R.string.mon_deactivated);
+			
+			if (!bStop)
+			{
+				MainUtils.getInstance().showToastLong(R.string.err_service_stop);
+			}
 		}
 		else
 		{

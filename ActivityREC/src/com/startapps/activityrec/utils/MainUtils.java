@@ -1,6 +1,8 @@
 package com.startapps.activityrec.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Set;
 
 import android.app.Activity;
@@ -14,6 +16,7 @@ public class MainUtils
 	
 	private static MainUtils instance;
 	private Activity mainActivity;
+	private SimpleDateFormat SDF = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private MainUtils()
 	{
@@ -114,7 +117,7 @@ public class MainUtils
         return builder.toString();
     }
 	
-	public String getArrayTitleForValue(String value, String[] allValues, String[] allNames)
+	public String getArrayTitleForValue(final String value, final String[] allValues, final String[] allNames)
 	{
 		try
 		{
@@ -131,6 +134,39 @@ public class MainUtils
 			System.err.println("ArraiIndexOutOfBoundsException: " + e.getMessage());
 		}
 		return value;
+	}
+	
+	public String formatDate(final Date d)
+	{
+		return SDF.format(d);
+	}
+	
+	public String seconds2Minutes(final long seconds)
+	{
+		String res = "";
+		final String zf = "%02d";
+		if (seconds >= 60)
+		{
+			long minutes = seconds / 60;
+			long restSeconds = seconds % 60;
+			if (minutes >= 60)
+			{
+				long hours = minutes / 60;
+				long restMinutes = minutes % 60;
+				res = String.format(zf, hours) + ":" + String.format(zf, restMinutes);
+			}
+			else
+			{
+				res = String.format(zf, minutes);
+			}
+			res += ":" + String.format(zf, restSeconds);
+		}
+		else
+		{
+			res = "00:" + String.format(zf, seconds);
+		}
+			
+		return res;
 	}
 	
 }
