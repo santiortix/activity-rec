@@ -1361,6 +1361,8 @@ string name="hello_world">Hola chache!</string
          */
         public static final int pref_header_general=0x7f0c003e;
         public static final int pref_hint_email_addr=0x7f0c0042;
+        /** <string name="pref_summ_applist">Supported Apps</string>
+         */
         public static final int pref_summ_applist=0x7f0c0045;
         public static final int pref_title_activate_monitoring=0x7f0c0040;
         public static final int pref_title_applist=0x7f0c0044;

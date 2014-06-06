@@ -22,7 +22,6 @@ public class ActivityRecord extends AbstractRecord
 	{
 		return "[" + MainUtils.getInstance().formatDate(getTimestamp()) + "] - " + ctx.getString(getMessageIdx());
 	}
-	
-	
+		
 	
 }

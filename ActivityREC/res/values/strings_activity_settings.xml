@@ -14,7 +14,8 @@
     <string name="pref_title_email_addr">Email for notifications</string>
     
     <string name="pref_title_applist">Supported Apps</string>
-    <string name="pref_summ_applist">Supported Apps</string>
+    <!--<string name="pref_summ_applist">Supported Apps</string>-->
+    <string name="pref_summ_applist"></string>
     <!-- Datos de prueba -->
     <string-array name="pref_applist_values">
         <item>com.facebook.katana</item>

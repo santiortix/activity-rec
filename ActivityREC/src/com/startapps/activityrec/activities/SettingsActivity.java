@@ -1,5 +1,6 @@
 package com.startapps.activityrec.activities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 
 import com.startapps.activityrec.R;
 import com.startapps.activityrec.preference.MultiSelectListPreference;
+import com.startapps.activityrec.types.PreferencesAppInformation;
 import com.startapps.activityrec.utils.MainUtils;
 import com.startapps.activityrec.utils.PreferenceUtils;
 
@@ -92,10 +94,17 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		
 		final MultiSelectListPreference appsPref = (MultiSelectListPreference) findPreference(getText(R.string.key_applist));
 		appsPref.setOnPreferenceChangeListener(this);
-		
-		mOrigSummaryText = appsPref.getSummary().toString();
 		String[] allValues = getResources().getStringArray(R.array.pref_applist_values);
         String[] allNames = getResources().getStringArray(R.array.pref_applist_titles);
+        
+        // Aqui está el diablo...
+        // De momento no sabemos como deshabilitar aquellas apps que no están instaladas en el telefono
+        // asi que lo unico que se puede hacer es no mostrarlas... :(
+        /*List<PreferencesAppInformation> filtered = PreferenceUtils.getInstance().filterInstalledApps(allNames, allValues);
+        appsPref.setEntries(getAppsListNames(filtered));
+        appsPref.setEntryValues(getAppsListValues(filtered));*/
+		
+		mOrigSummaryText = appsPref.getSummary().toString();		
 		appsPref.setSummary(MainUtils.getInstance().makeSummaryText(mOrigSummaryText, appsPref.getValues(), allValues, allNames));
 	}
 	
@@ -113,8 +122,34 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 		mon_act.setEnabled(false);
 		mon_act.setChecked(PreferenceUtils.getInstance().checkPrefsMonitoringActive());
 	}
+	
+	private String[] getAppsListNames(List<PreferencesAppInformation> appsList)
+	{
+		String[] a = new String[appsList.size()];
+		
+		for (int i=0; i<appsList.size(); i++)
+		{
+			PreferencesAppInformation appInf = appsList.get(i);
+			a[i] = appInf.getAppName();
+		}		
+		
+		return a; 
+	}
+	
+	private String[] getAppsListValues(List<PreferencesAppInformation> appsList)
+	{
+		String[] a = new String[appsList.size()];
+		
+		for (int i=0; i<appsList.size(); i++)
+		{
+			PreferencesAppInformation appInf = appsList.get(i);
+			a[i] = appInf.getAppPackage();
+		}		
+		
+		return a; 
+	}
 
-	/**
+	/*
 	 * Shows the simplified settings UI if the device configuration if the
 	 * device configuration dictates that a simplified, single-pane UI should be
 	 * shown.

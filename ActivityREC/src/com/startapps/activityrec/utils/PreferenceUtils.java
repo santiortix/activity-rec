@@ -1,10 +1,15 @@
 package com.startapps.activityrec.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
 import com.startapps.activityrec.R;
+import com.startapps.activityrec.types.PreferencesAppInformation;
 
 public class PreferenceUtils
 {
@@ -67,6 +72,35 @@ public class PreferenceUtils
 		SharedPreferences prefs = getPrefs();
 		return prefs.getString(mainActivity.getString(R.string.key_password), "-1");
 	}
+	
+	public final List<PreferencesAppInformation> filterInstalledApps(final String[] appsNames, final String[] appsValues)
+	{
+		List<PreferencesAppInformation> res = new ArrayList<PreferencesAppInformation>();
+		for (int i=0; i<appsValues.length; i++)
+		{
+			if (appInstalledOrNot(appsValues[i]))
+			{
+				res.add(new PreferencesAppInformation(appsNames[i], appsValues[i]));
+			}
+		}
+		return res;
+	}
+	
+	private boolean appInstalledOrNot(String uri)
+	{
+        PackageManager pm = mainActivity.getPackageManager();
+        boolean app_installed = false;
+        try
+        {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            app_installed = true;
+        }
+        catch (PackageManager.NameNotFoundException e)
+        {
+            app_installed = false;
+        }
+        return app_installed ;
+    }
 	
 	private SharedPreferences getPrefs()
 	{

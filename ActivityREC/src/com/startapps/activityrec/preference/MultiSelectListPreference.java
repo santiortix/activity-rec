@@ -3,6 +3,7 @@ package com.startapps.activityrec.preference;
 import java.util.HashSet;
 import java.util.Set;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,13 +12,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.startapps.activityrec.R;
 
 public class MultiSelectListPreference extends DialogPreference
 {
 	private CharSequence[] mEntries;
+	//private ArrayAdapter<CharSequence> mEntries;
     private CharSequence[] mEntryValues;
+	//private ArrayAdapter<CharSequence> mEntryValues;
     private Set<String> mValues = new HashSet<String>();
     private Set<String> mNewValues;
     private boolean mPreferenceChanged;
@@ -33,7 +38,8 @@ public class MultiSelectListPreference extends DialogPreference
             final int index = a.getIndex(i);
             switch (index) {
                 case R.styleable.MultiSelectListPreference_android_entries:
-                    mEntries = a.getTextArray(index);
+                    //mEntries = arrayToArrayAdapter(context, a.getTextArray(index));
+                	mEntries = a.getTextArray(index);
                     break;
                 case R.styleable.MultiSelectListPreference_android_entryValues:
                     mEntryValues = a.getTextArray(index);
@@ -170,9 +176,9 @@ public class MultiSelectListPreference extends DialogPreference
         final boolean[] checkedItems = getSelectedItems(mNewValues);
         builder.setMultiChoiceItems(mEntries, checkedItems,
                 new DialogInterface.OnMultiChoiceClickListener() {
-                    public void onClick(DialogInterface dialog, int which,
-                            boolean isChecked) {
-                        if (isChecked) {
+        			
+        			public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+        				if (isChecked) {
                             mPreferenceChanged |= mNewValues
                                     .add(mEntryValues[which].toString());
                         } else {
@@ -181,6 +187,17 @@ public class MultiSelectListPreference extends DialogPreference
                         }
                     }
                 });
+        
+        /*ListAdapter la = new ListAdapter(){
+        	
+        };*/
+        /*AlertDialog ad = builder.show();
+        ListView lv = ad.getListView();
+        
+        for (int i=0; i<lv.getChildCount(); i++)
+        {
+        	lv.getChildAt(i).setEnabled(false);
+        }*/       
     }
 
     private boolean[] getSelectedItems(final Set<String> values) {
@@ -335,5 +352,11 @@ public class MultiSelectListPreference extends DialogPreference
 
     protected Set<String> getPersistedStringSetCompat(Set<String> defaultReturnValue) {
         return PreferenceCompat.getPersistedStringSet(this, defaultReturnValue);
+    }
+    
+    private final ArrayAdapter<CharSequence> arrayToArrayAdapter(Context ctx, CharSequence[] array)
+    {
+    	ArrayAdapter<CharSequence> res = new ArrayAdapter<CharSequence>(ctx, 1, array);
+    	return res;
     }
 }
